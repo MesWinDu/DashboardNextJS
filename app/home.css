@@ -1,0 +1,167 @@
+.app {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+
+.text-header {
+  text-align: center;
+  color: #000000;
+  font-family: "Inter-Regular", Helvetica;
+  font-size: 36px;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: normal;
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+
+.overlap-group {
+  background-color: #eee7e7;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  border-radius: 20px;
+  height: 700px;
+  width: 972px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sub-body{
+  display: flex;
+  width: 1670px;
+  justify-content: start;
+}
+
+img {
+  margin-top: 30px;
+  width: 810px;
+}
+
+.overlap {
+  background-color: #f9f9f9;
+  border-radius: 20px;
+  height: 110px;
+  left: 70px;
+  top: 72px;
+  width: 831px;
+  margin-top: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  
+}
+
+.text-detail {
+  color: #000000;
+  font-family: "Inter-Regular", Helvetica;
+  font-size: 24px;
+  font-weight: 400;
+  left: 75px;
+  letter-spacing: 0;
+  line-height: normal;
+  top: 39px;
+}
+
+.div-wrapper {
+  background-color: #082a87;
+  height: 61px;
+  left: 556px;
+  top: 24px;
+  width: 200px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-family: "Inter-Regular", Helvetica;
+  font-size: 24px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.div-wrapper:hover{
+  background-color: yellow;
+  color: black;
+}
+
+.power-status {
+  color: white;
+  font-family: "Inter-Regular", Helvetica;
+  font-size: 24px;
+  font-weight: 400;
+  left: 71px;
+  letter-spacing: 0;
+  line-height: normal;
+  top: 15px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.hide {
+  display: none;
+}
+
+.div-wrapper:hover + .hide {
+  display: block;
+  color: #eee7e7;
+
+}
+
+aside{
+  width:350px;
+  left: 100px;
+  justify-content: center;
+}
+
+.gauge-chart1{
+  height: 10;
+}
+
+.div-graph{
+  display: flex;
+  width: 800px;
+  height: 600px;
+  justify-content: space-around;
+  padding-top: 50px;
+}
+
+.sub-graph{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-style: solid;
+  border-width: 10px;
+  border-color: #928181;
+  padding: 30px;
+  border-radius: 50px;
+  height:450px;
+}
+
+.text-box{
+  display: flex;
+  margin-top: 150px;
+  background-color: white;
+  width: 100px;
+  height: 50px;
+  border-radius: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+.status-box{
+  display: flex;
+  margin-top: 30px;
+  background-color: #8eb3ed;
+  width: 180px;
+  height: 50px;
+  border-radius: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+.status-text{
+  font-size: 20px;
+  font-weight: bold;
+}

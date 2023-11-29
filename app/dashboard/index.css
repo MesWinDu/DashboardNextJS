@@ -1,0 +1,15 @@
+.graph{
+    height: 800px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 50px;
+}
+
+.div-text {
+    padding: 50px 0px 00px 50px; 
+}
+
+.hide {
+    display: none;
+  }
