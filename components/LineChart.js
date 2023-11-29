@@ -73,6 +73,6 @@ export function LineChart({ alldata, date, isloading, error }) {
   if (error) {
     return <p>Error: {error}</p>;
   }
-
+  // console.log(alldata,dateStringsArray)
   return <Line options={options} data={data} />;
 }
