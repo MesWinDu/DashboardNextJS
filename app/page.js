@@ -59,16 +59,16 @@ function Home() {
   return (
     <div className="app">
       <div className="div">
+        <div className="time">
+          <h5>{day}</h5>
+          <h5>{date.toLocaleTimeString()}</h5>
+        </div>
         <div className="text-header">โรงเรียน​บ้านยางเปา​ ห้องเรียนสาขาแม่ระมีดหลวง</div>
         <div className='sub-body'>
-          <aside className="sidebar">
-            <h5>{day}</h5>
-            <h5>{date.toLocaleTimeString()}</h5>
-          </aside>
           <div className="overlap-group">
             <div className="overlap">
               <div className="text-detail">ปริมาณไฟฟ้าที่ใช้งานของห้องเรียนทุกห้อง</div>
-              <Link className="div-wrapper" href="/dashboard">
+              <Link className="div-wrapper" href="/dashboard/watt">
               {powerData.power} W
               </Link>
             </div>
@@ -103,6 +103,21 @@ function Home() {
                 </div>
                 <div className='status-box'>
                   <p className='status-text'>{powerData.power} A</p>
+                </div>
+              </div>
+              <div className='sub-graph'>
+                <GaugeChart id="gauge-chart1"
+                  nrOfLevels={1} 
+                  percent={powerData.power/250} 
+                  animate = {false}
+                  hideText={true}
+                  style={{height: '50px' }}
+                />
+                <div className='text-box'>
+                  <p>พลังงาน</p>
+                </div>
+                <div className='status-box'>
+                  <p className='status-text'>{powerData.power} kWh</p>
                 </div>
               </div>
             </div>
