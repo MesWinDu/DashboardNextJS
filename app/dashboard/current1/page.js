@@ -23,7 +23,7 @@ const Dashboard = () => {
     
       const fetchData = async () => {
         try {
-          const data = await fetchPowerConsumptionData(selectedRange);
+          const data = await fetchPowerConsumptionData(selectedRange, 'Current', '0', 'PowerMeter1');
           setPowerData({ ...data, isloading: false, error: null });
         } catch (err) {
           setPowerData(prevState => ({
@@ -44,6 +44,9 @@ const Dashboard = () => {
     <div className="w-screen h-screen flex flex-col">
         <div className='div-text'>
             <Link  className='btn btn-primary' href="/">หน้าแรก</Link>
+        </div>
+        <div className='w-full flex justify-center items-center mb-4'>
+          <h1 className="text-3xl">กระแสไฟฟ้าที่ผลิตจากโซลาร์เซลล์</h1>
         </div>
         <div className='dropdown w-full flex justify-center'>
           <label htmlFor="range">Select Range:</label>

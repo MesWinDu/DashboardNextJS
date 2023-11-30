@@ -49,7 +49,7 @@ export const GET = async (request) => {
         }else{
             const queryApi = influxDB.getQueryApi(process.env.INFLUX_ORG);
             const query2 =`from(bucket: "${process.env.INFLUX_BUCKET}")
-            |> range(start: -1h)
+            |> range(start: -${range})
             |> filter(fn: (r) => r._measurement == "${measurement}")
             |> last()
             |> group(columns: ["_field"])
