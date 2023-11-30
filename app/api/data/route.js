@@ -6,7 +6,7 @@ export const GET = async (request) => {
     try {
         const searchParams = Object.fromEntries(request.nextUrl.searchParams)
         const range = searchParams.range || '48h'; // Use optional chaining to handle undefined query object
-        const field = searchParams.field || "Energy"
+        const field = searchParams.field || "Voltage"
         const measurement = searchParams.measurement || "PowerMeter1"
         const influxDB = new InfluxDB({
             url: process.env.INFLUX_URL,
@@ -48,12 +48,12 @@ export const GET = async (request) => {
     
             const result = {};
 
-fieldsToProcess.forEach((field) => {
-    result[field] = {
-        Values: dataByField[field],
-        Datetimes: timeLinesByField[field],
-    };
-});
+            fieldsToProcess.forEach((field) => {
+                result[field] = {
+                    Values: dataByField[field],
+                    Datetimes: timeLinesByField[field],
+                };
+            });
 
         return new Response(JSON.stringify(result), {
             status: 200,
