@@ -4,6 +4,10 @@ import { InfluxDB } from '@influxdata/influxdb-client';
 
 export const GET = async (request) => {
     try {
+        const searchParams = Object.fromEntries(request.nextUrl.searchParams)
+        const range = searchParams.range || '48h'; // Use optional chaining to handle undefined query object
+        const field = searchParams.field || "Energy"
+        const measurement = searchParams.measurement || "PowerMeter1"
         const influxDB = new InfluxDB({
             url: process.env.INFLUX_URL,
             token: process.env.INFLUX_TOKEN,
@@ -12,30 +16,44 @@ export const GET = async (request) => {
         const queryApi = influxDB.getQueryApi(process.env.INFLUX_ORG);
         const query1 = `
             from(bucket: "${process.env.INFLUX_BUCKET}")
-            |> range(start: -48h)
-            |> filter(fn: (r) => r._measurement == "PowerMeter1")
-            |> filter(fn: (r) => r._field == "Voltage" or r._field == "Timestamp")
+            |> range(start: -${range})
+            |> filter(fn: (r) => r._measurement == "${measurement}")
+            |> filter(fn: (r) => r._field == "${field}" or r._field == "Timestamp")
             |> pivot(rowKey:["_time"], columnKey: ["_field"], valueColumn: "_value")`;
 
-        const rows = await queryApi.collectRows(query1);
-        const Voltage = [];
-        const timeLines = [];
+            const rows = await queryApi.collectRows(query1);
+            const fieldsToProcess = ['Voltage', 'Current', 'Energy', 'Frequency', 'Power'];
+            const dataByField = {};
+            const timeLinesByField = {};
+    
+            fieldsToProcess.forEach((field) => {
+                dataByField[field] = [];
+                timeLinesByField[field] = [];
+            });
+    
+            rows.forEach((row) => {
+                fieldsToProcess.forEach((field) => {
+                    if (row.hasOwnProperty(field)) {
+                        const value = row[field];
+                        const timestamp = row.Timestamp;
+                        const filtered = convertUnixTimestampToDateTime(timestamp);
+    
+                        if (value <= 400 && value >= -1) {
+                            dataByField[field].push(value);
+                            timeLinesByField[field].push(filtered.split(" "));
+                        }
+                    }
+                });
+            });
+    
+            const result = {};
 
-        rows.forEach((row) => {
-            const voltage = row.Voltage;
-            const timestamp = row.Timestamp;
-            const Filtered = convertUnixTimestampToDateTime(timestamp);
-
-            if (voltage <= 400 && voltage >= -1) {
-                Voltage.push(voltage);
-                timeLines.push(Filtered.split(" "));
-            }
-        });
-
-        const result = {
-            Voltage: Voltage,
-            Datetimes: timeLines,
-        };
+fieldsToProcess.forEach((field) => {
+    result[field] = {
+        Values: dataByField[field],
+        Datetimes: timeLinesByField[field],
+    };
+});
 
         return new Response(JSON.stringify(result), {
             status: 200,
