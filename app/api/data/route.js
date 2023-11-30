@@ -7,12 +7,16 @@ export const GET = async (request) => {
         const searchParams = Object.fromEntries(request.nextUrl.searchParams)
         const range = searchParams.range || '48h'; // Use optional chaining to handle undefined query object
         const field = searchParams.field || "Voltage"
+        const main = searchParams.main || 0
         const measurement = searchParams.measurement || "PowerMeter1"
         const influxDB = new InfluxDB({
             url: process.env.INFLUX_URL,
             token: process.env.INFLUX_TOKEN,
         });
-
+        const fieldsToProcess = ['Voltage', 'Current', 'Energy', 'Frequency', 'Power'];
+        const dataByField = {};
+        const timeLinesByField = {};
+        if(main == 0){
         const queryApi = influxDB.getQueryApi(process.env.INFLUX_ORG);
         const query1 = `
             from(bucket: "${process.env.INFLUX_BUCKET}")
@@ -22,10 +26,7 @@ export const GET = async (request) => {
             |> pivot(rowKey:["_time"], columnKey: ["_field"], valueColumn: "_value")`;
 
             const rows = await queryApi.collectRows(query1);
-            const fieldsToProcess = ['Voltage', 'Current', 'Energy', 'Frequency', 'Power'];
-            const dataByField = {};
-            const timeLinesByField = {};
-    
+            
             fieldsToProcess.forEach((field) => {
                 dataByField[field] = [];
                 timeLinesByField[field] = [];
@@ -45,7 +46,41 @@ export const GET = async (request) => {
                     }
                 });
             });
+        }else{
+            const queryApi = influxDB.getQueryApi(process.env.INFLUX_ORG);
+            const query2 =`from(bucket: "${process.env.INFLUX_BUCKET}")
+            |> range(start: -1h)
+            |> filter(fn: (r) => r._measurement == "${measurement}")
+            |> last()
+            |> group(columns: ["_field"])
+            |> pivot(rowKey:["_time"], columnKey: ["_field"], valueColumn: "_value")
+              `;
+            const rows = await queryApi.collectRows(query2);
+            // console.log(rows)
+            fieldsToProcess.forEach((field) => {
+                dataByField[field] = [];
+                timeLinesByField[field] = [];
+            });
+
+            rows.forEach((row) => {
+                
+                fieldsToProcess.forEach((field) => {
+                    if (row.hasOwnProperty(field)) {
+                        const value = row[field];
+                        
+                        const timestamp = row.Timestamp;
+                        const filtered = convertUnixTimestampToDateTime(timestamp);
     
+                        if (value <= 400 && value >= -1) {
+                            dataByField[field].push(value);
+                            timeLinesByField[field].push(filtered.split(" "));
+                        }
+                    }
+                    
+                });
+            })
+
+        }
             const result = {};
 
             fieldsToProcess.forEach((field) => {
