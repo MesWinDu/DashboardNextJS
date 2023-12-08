@@ -1,7 +1,7 @@
 .app {
   display: flex;
   flex-direction: row;
-  justify-content: start;
+  justify-content: center;
 }
 
 
@@ -40,8 +40,7 @@
 }
 .sub-body{
   display: flex;
-  width: 1900px;
-  justify-content: start;
+  justify-content: center;
 }
 
 img {
