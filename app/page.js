@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import { fetchPowerConsumptionData } from '@/lib/actions/fetchData';
+import { fetchPowerConsumptionData, fetchALlConsumptionData } from '@/lib/actions/fetchData';
 import "./home.css";
 import Link from 'next/link';
 import GaugeChart from 'react-gauge-chart';
@@ -8,34 +8,31 @@ import GaugeChart from 'react-gauge-chart';
 function Home() {
   const [date, setDate] = useState(new Date());
   const [powerData1, setpowerData1] = useState({
-    alldata: {},
-    date: {},
-    power: '',
+    power : {},
     voltage: '',
-    current: '',
-    energy: '',
-    frequency: '',
+    current : '',
+    energy : '',
+    frequency : '',
     isloading: true,
     error: null,
   });
   const [powerData2, setpowerData2] = useState({
-    alldata: {},
-    date: {},
-    power: '',
+    power : '',
     voltage: '',
-    current: '',
-    energy: '',
-    frequency: '',
+    current : '',
+    energy : '',
+    frequency : '',
     isloading: true,
     error: null,
   });
 
   const fetchData = async () => {
     try {
-      const data1 = await fetchPowerConsumptionData(selectedRange, 'Watt', '1', 'PowerMeter1');
+      const data1 = await fetchALlConsumptionData('3h', 'Power', '1', 'PowerMeter1');
       setpowerData1({ ...data1, isloading: false, error: null });
-      const data2 = await fetchPowerConsumptionData(selectedRange, 'Watt', '1', 'PowerMeter2');
+      const data2 = await fetchALlConsumptionData('3h', 'Power', '1', 'PowerMeter2');
       setpowerData2({ ...data2, isloading: false, error: null });
+      console.log(data1)
     } catch (err) {
       setpowerData1(prevState => ({
         ...prevState,
@@ -90,7 +87,7 @@ function Home() {
           <div className="overlap-group">
             <div className="overlap">
               <div className="text-detail">ปริมาณกำลังไฟฟ้าที่ผลิตจากโซลาร์เซลล์</div>
-              <Link className="div-wrapper" href="/dashboard/watt1">
+              <Link className="div-wrapper" href="/dashboard/power1">
               {powerData1.power === '' ? '-' : `${powerData1.power} W`}
               </Link>
             </div>
@@ -159,7 +156,7 @@ function Home() {
           <div className="overlap-group">
             <div className="overlap">
               <div className="text-detail">ปริมาณกำลังไฟฟ้าภายในห้องคอมพิวเตอร์</div>
-              <Link className="div-wrapper" href="/dashboard/watt2">
+              <Link className="div-wrapper" href="/dashboard/power2">
               {powerData2.power === '' ? '-' : `${powerData2.power} W`}
               </Link>
             </div>

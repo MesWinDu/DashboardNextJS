@@ -23,7 +23,7 @@ const Dashboard = () => {
     
       const fetchData = async () => {
         try {
-          const data = await fetchPowerConsumptionData(selectedRange, 'Watt', '0', 'PowerMeter1');
+          const data = await fetchPowerConsumptionData(selectedRange, 'Power', '0', 'PowerMeter1');
           setPowerData({ ...data, isloading: false, error: null });
         } catch (err) {
           setPowerData(prevState => ({
