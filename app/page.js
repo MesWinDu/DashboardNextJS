@@ -4,6 +4,8 @@ import { fetchPowerConsumptionData, fetchALlConsumptionData } from '@/lib/action
 import "./home.css";
 import Link from 'next/link';
 import GaugeChart from 'react-gauge-chart';
+import Image from 'next/image';
+
 
 function Home() {
   const [date, setDate] = useState(new Date());
@@ -78,9 +80,12 @@ function Home() {
   return (
     <div className="app">
       <div className="div">
-        <div className="time">
-          <h5>{day}</h5>
-          <h5>{date.toLocaleTimeString()}</h5>
+        <div className="top-div">
+          <Image src='/Icon.png' width= {500} height={500} alt='Logo' className='top-0 left-0 w-40 h-40' />
+          <div className="time">
+            <h5>{day}</h5>
+            <h5>{date.toLocaleTimeString()}</h5>
+           </div> 
         </div>
         <div className="text-header">โรงเรียน​บ้านยางเปา​ ห้องเรียนสาขาแม่ระมีดหลวง</div>
         <div className='sub-body'>

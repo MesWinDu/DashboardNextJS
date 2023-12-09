@@ -1,7 +1,4 @@
-"use client"
-import "./Header.css"
-import { FaRegSun, FaRegMoon } from "react-icons/fa";
-
+import Image from 'next/image';
 
 const Header=(props)=>{
     const {theme, setTheme} = props
@@ -15,7 +12,7 @@ const Header=(props)=>{
     return(
         <header>
             <div className="logo">
-                <span>Energy Dashboard</span>
+                <Image src='/Icon.png' width= {1000} height={1000} alt='Logo' className='top-0 left-0 w-80 h-80' />
             </div>
             {/* <div className="theme-container">
                 <span>{theme === "light" ? "โหมดกลางวัน" : "โหมดกลางคืน"}</span>
