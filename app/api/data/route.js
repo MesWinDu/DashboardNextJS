@@ -38,11 +38,9 @@ export const GET = async (request) => {
                         const value = row[field];
                         const timestamp = row.Timestamp;
                         const filtered = convertUnixTimestampToDateTime(timestamp);
-    
-                        if (value <= 400 && value >= -1) {
-                            dataByField[field].push(value);
-                            timeLinesByField[field].push(filtered.split(" "));
-                        }
+                        dataByField[field].push(value);
+                        timeLinesByField[field].push(filtered.split(" "));
+                        
                     }
                 });
             });
