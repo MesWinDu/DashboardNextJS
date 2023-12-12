@@ -36,9 +36,12 @@ export function LineChart({ alldata, date, isloading, error }) {
       // Adjust time zone to +7
       const adjustedHours = (hours + 7) % 24;
 
+      // Add leading zero to single-digit minutes
+      const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+
       // Format the date and time as per your requirement
-      const formattedDateTime = `${day}/${month}/${year} ${adjustedHours}:${minutes}`;
-      console.log(formattedDateTime)
+      const formattedDateTime = `${day}/${month}/${year} ${adjustedHours}:${formattedMinutes}`;
+      console.log(formattedDateTime);
       return formattedDateTime;
     });
   };
